@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Limelight&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
 
 :root {
   --bg: #171719;
@@ -48,7 +50,7 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 50px 0;
-  font-family: system-ui, Helvetica, sans-serif;
+  font-family: "Inter", system-ui, Helvetica, sans-serif;
 }
 
 h1 {
@@ -728,21 +730,56 @@ button, input, textarea, #dashboard-link {
 }
 
 #csv-table {
+  position: relative;
   width: 100%;
+  border-radius: 0 0 5px 5px;
+  overflow: hidden;
+}
+
+/* me when tables are weird, so i have to make a bottom border that's rounded with an ::after */
+#csv-table::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -0.5px;
+  right: -0.5px;
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+  height: 5px;
+}
+
+#csv-table tr:last-child {
+  border-bottom: none;
+}
+
+#csv-table tr:last-child > td {
+  border-bottom: none;
 }
 
 #csv-name {
-  font-family: monospace;
+  font-family: "Inconsolata", monospace;
+  padding: 5px 10px;
+  margin-bottom: 0;
+  width: 100%;
+  background: var(--bg-light);
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+}
+
+#drag-msg {
+  display: block;
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+  padding-top: 10px;
+  padding-left: 10px;
+  border: 1px solid var(--border);
+  border-bottom: none;
 }
 
 #csv-table td {
   border: 1px solid var(--border);
-}
-
-#csv-table-wrapper {
-  padding: 10px;
-  border-radius: 5px;
-  background: var(--bg-light);
 }
 
 #csv-table-wrapper:has(#csv-table:empty) {
@@ -758,13 +795,24 @@ button, input, textarea, #dashboard-link {
   position: relative;
   height: 40px;
   width: 100%;
-  border: 1px solid var(--border);
-  border-bottom: none;
-  margin-bottom: -10px;
+  margin-top: -10px;
+  margin-bottom: -11px;
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 0 10px;
+  padding-bottom: 5px;
+  border: 1px solid var(--border);
+  border-top: none;
+  border-bottom: none;
+}
+
+#drop-headers {
+  transition: background 0.2s linear;
+}
+
+#drop-headers.hovered {
+  background: color-mix(in srgb, var(--accent), transparent 90%);
 }
 
 .csv-header-chip {

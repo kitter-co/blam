@@ -348,10 +348,15 @@ let columnHeaders = {}
 function dragstartHandler(e) {
   console.log(e, e.target, e.target.id)
   e.dataTransfer.setData("text", e.target.id)
+  id("drop-headers").classList.add("hovered")
 }
 
 function dragoverHandler(e) {
   e.preventDefault()
+}
+
+function dragendHandler() {
+  id("drop-headers").classList.remove("hovered")
 }
 
 function dropHandler(e) {
@@ -371,6 +376,8 @@ function dropHandler(e) {
       id("import").disabled = true
     }
   }
+
+  id("drop-headers").classList.remove("hovered")
 }
 
 let csvData
@@ -398,12 +405,14 @@ id("csv").onchange = e => {
       headerChip.style.setProperty("--color", `hsl(${(360 / headers.length) * i}, 100%, 59%)`)
       headerChip.draggable = true
       headerChip.setAttribute("ondragstart", "dragstartHandler(event)")
+      headerChip.setAttribute("ondragend", "dragendHandler()")
       headerChip.id = `header-chip-${i}`
       id("csv-headers").append(headerChip)
     }
 
     id("csv-table").innerHTML = ""
     let row = document.createElement("tr")
+    row.id = "drop-headers"
     for (let i = 0; i < data.fields.length; i++) {
       row.innerHTML += `<td class="csv-column-header" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)" column="${i}"></td>`
     }
