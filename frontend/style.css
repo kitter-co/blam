@@ -198,6 +198,7 @@ th {
   padding-top: 0;
   display: flex;
   gap: 10px;
+  border-bottom-left-radius: 5px;
 }
 
 .button {
@@ -828,7 +829,14 @@ button, input, textarea, #dashboard-link {
   min-width: max-content;
   width: 50%;
   max-width: 300px;
-  margin: 0 auto;
+  margin: 0 auto;;
+}
+
+#import > span {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center
 }
 
 #import:not(.loading) > .loader {

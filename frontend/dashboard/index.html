@@ -56,18 +56,19 @@
                     <button onclick="addUser()" id="add-btn">Add</button>
                 </div>
                 <span id="add-error"></span>
-                <input type="file" id="csv" accept=".csv" style="display: none;">
                 <hr>
+                <h3>Add Many Users</h3>
                 <button id="fake-file-input">
                     <i class="ph ph-file-csv"></i>Select CSV
                 </button>
+                <input type="file" id="csv" accept=".csv" style="display: none;">
                 <div id="csv-table-wrapper">
                     <span id="csv-name"></span>
                     <span id="drag-msg">Drag the headers to their corresponding columns</span>
                     <div id="csv-headers"></div>
                     <table id="csv-table"></table>
                 </div>
-                <button id="import" disabled><span>Import</span><i class='ph ph-circle-notch loader'></i></button>
+                <button id="import" disabled><span>Import<i class="ph ph-cloud-arrow-up"></i></span><i class='ph ph-circle-notch loader'></i></button>
             </section>
             <section id="requests-section">
                 <h2 id="blam-h2">Blam Requests <button id="reload-blam-requests"><i class="ph ph-arrow-clockwise"></i></button></h2>
