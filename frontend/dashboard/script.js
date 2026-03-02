@@ -40,8 +40,8 @@ async function loadReports() {
     if (!r.active) continue
     let li = document.createElement("li")
     li.innerHTML = `<span>${getUserById(r.user)} <span style="color: var(--gray);">eliminated</span> ${getUserById(r.target)}</span>
-      <button class="accept" onclick="blammoUser('${r.user}', '${r._id}')">Accept<i class="ph ph-check"></i></button>
-      <button class="reject" onclick="completeReport('${r._id}')">Reject<i class="ph ph-x"></i></button>`
+      <button class="accept" onclick="blammoUser('${r.user}', '${r._id}'); disableContainer(this)">Accept<i class="ph ph-check"></i></button>
+      <button class="reject" onclick="completeReport('${r._id}'); disableContainer(this)">Reject<i class="ph ph-x"></i></button>`
     document.getElementById("requests").append(li)
   }
 
@@ -60,6 +60,12 @@ id("reload-blam-requests").onclick = () => {
 
 function getUserById(id) {
   return users?.find((u) => u._id === id)?.name
+}
+
+function disableContainer(button) {
+  for (let b of button.parentElement.querySelectorAll("button")) {
+    b.disabled = true
+  }
 }
 async function blammoUser(user, report) {
   await fetch("https://blam.rkmr.dev/api/blammo/", {
@@ -400,7 +406,8 @@ id("csv").onchange = e => {
       "Email",
       "Grade"
     ]
-
+    
+    id("csv-headers").innerHTML = ""
     for (let i = 0; i < headers.length; i++) {
       let h = headers[i]
       let headerChip = document.createElement("div")
@@ -410,7 +417,7 @@ id("csv").onchange = e => {
       headerChip.draggable = true
       headerChip.setAttribute("ondragstart", "dragstartHandler(event)")
       headerChip.setAttribute("ondragend", "dragendHandler()")
-      headerChip.id = `header-chip-${i}`
+      headerChip.id = h
       id("csv-headers").append(headerChip)
     }
 

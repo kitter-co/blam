@@ -319,6 +319,7 @@ form > label:has([required]) > span::after {
 #submit {
   width: 50%;
   max-width: 300px;
+  margin-bottom: 50px;
 }
 
 button, #dashboard-link {
@@ -669,6 +670,7 @@ button:active, #submit:active,
   opacity: 0.75;
   pointer-events: none;
   color: var(--gray);
+  border-color: var(--gray);
 }
 
 @keyframes spin {
