@@ -665,8 +665,10 @@ button:active, #submit:active,
   }
 }
 
-[disabled] {
+[disabled], .disabled {
   opacity: 0.75;
+  pointer-events: none;
+  color: var(--gray);
 }
 
 @keyframes spin {
@@ -723,4 +725,68 @@ hr {
 
 button, input, textarea, #dashboard-link {
   border-radius: 5px;
+}
+
+#csv-table {
+  width: 100%;
+}
+
+#csv-name {
+  font-family: monospace;
+}
+
+#csv-table td {
+  border: 1px solid var(--border);
+}
+
+#csv-table-wrapper {
+  padding: 10px;
+  border-radius: 5px;
+  background: var(--bg-light);
+}
+
+#csv-table-wrapper:has(#csv-table:empty) {
+  display: none;
+}
+
+.csv-column-header {
+  position: relative;
+  height: 40px;
+}
+
+#csv-headers {
+  position: relative;
+  height: 40px;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  margin-bottom: -10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+}
+
+.csv-header-chip {
+  display: inline-block;
+  width: max-content;
+  padding: 0 5px;
+  border: 1px solid var(--color);
+  border-radius: 5px;
+  cursor: move;
+}
+
+#import {
+  min-width: max-content;
+  width: 50%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+#import:not(.loading) > .loader {
+  display: none;
+}
+
+#import.loading > span {
+  display: none;
 }

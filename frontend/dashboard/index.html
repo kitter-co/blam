@@ -59,8 +59,14 @@
                 <input type="file" id="csv" accept=".csv" style="display: none;">
                 <hr>
                 <button id="fake-file-input">
-                    <i class="ph ph-file-csv"></i>Import CSV
+                    <i class="ph ph-file-csv"></i>Select CSV
                 </button>
+                <div id="csv-table-wrapper">
+                    <span id="csv-name"></span>
+                    <div id="csv-headers"></div>
+                    <table id="csv-table"></table>
+                </div>
+                <button id="import" disabled><span>Import</span><i class='ph ph-circle-notch loader'></i></button>
             </section>
             <section id="requests-section">
                 <h2 id="blam-h2">Blam Requests <button id="reload-blam-requests"><i class="ph ph-arrow-clockwise"></i></button></h2>
@@ -68,6 +74,7 @@
                 <ul id="requests"></ul>
             </section>
         </div>
+        <script src="./csv.js"></script>
         <script src="../default.js"></script>
         <script src="./script.js"></script>
     </body>

@@ -177,3 +177,278 @@ onload = () => {
 document.getElementById("fake-file-input").onclick = () => {
   document.getElementById("csv").click()
 }
+
+/*
+
+{
+    "fields": [
+        "Timestamp",
+        "Email Address",
+        "First and last name",
+        "grade",
+        "blammo?",
+        null
+    ],
+    "records": [
+        [
+            "2/27/2026 15:38:44",
+            "test@example.com",
+            "Name 1",
+            9,
+            "yes",
+            null
+        ],
+        [
+            "2/27/2026 15:38:55",
+            "e@mail.co",
+            "Name 2",
+            10,
+            "yes",
+            null
+        ],
+        [
+            "2/27/2026 15:39:07",
+            "cheese@cheese.com",
+            "Name 3",
+            11,
+            "yes",
+            null
+        ],
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            ""
+        ]
+    ],
+    "useMemoryStore": true,
+    "metadata": {
+        "filename": "test form stuff - Form Responses 1.csv"
+    }
+}
+
+*/
+
+let columnHeaders = {}
+
+function dragstartHandler(e) {
+  console.log(e, e.target, e.target.id)
+  e.dataTransfer.setData("text", e.target.id)
+}
+
+function dragoverHandler(e) {
+  e.preventDefault()
+}
+
+function dropHandler(e) {
+  e.preventDefault()
+  let data = e.dataTransfer.getData("text")
+  if ([...e.target.classList].includes("csv-column-header")) {
+    if (e.target.querySelector(".csv-header-chip")) {
+      columnHeaders[e.target.querySelector(".csv-header-chip").innerText.toLowerCase()] = null
+      id("csv-headers").append(e.target.querySelector(".csv-header-chip"))
+    }
+    e.target.appendChild(document.getElementById(data))
+    columnHeaders[e.target.querySelector(".csv-header-chip").innerText.toLowerCase()] = parseInt(e.target.getAttribute("column"))
+
+    if (columnHeaders.name && columnHeaders.grade && columnHeaders.email) {
+      id("import").disabled = false
+    } else {
+      id("import").disabled = true
+    }
+  }
+}
+
+let csvData
+
+id("csv").onchange = e => {
+  CSV.fetch({
+    file: e.target.files[0]
+    }
+  ).then(data => {
+    console.log(data)
+
+    csvData = data
+
+    let headers = [
+      "Name",
+      "Email",
+      "Grade"
+    ]
+
+    for (let i = 0; i < headers.length; i++) {
+      let h = headers[i]
+      let headerChip = document.createElement("div")
+      headerChip.innerText = h
+      headerChip.classList.add("csv-header-chip")
+      headerChip.style.setProperty("--color", `hsl(${(360 / headers.length) * i}, 100%, 59%)`)
+      headerChip.draggable = true
+      headerChip.setAttribute("ondragstart", "dragstartHandler(event)")
+      headerChip.id = `header-chip-${i}`
+      id("csv-headers").append(headerChip)
+    }
+
+    id("csv-table").innerHTML = ""
+    let row = document.createElement("tr")
+    for (let i = 0; i < data.fields.length; i++) {
+      row.innerHTML += `<td class="csv-column-header" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)" column="${i}"></td>`
+    }
+    id("csv-table").append(row)
+
+    let header = document.createElement("tr")
+    for (let f of data.fields) {
+      header.innerHTML += `<td>${f}</td>`
+    }
+    id("csv-table").append(header)
+
+    id("csv-name").innerText = data.metadata.filename
+    for (let row of data.records) {
+      let tr = document.createElement("tr")
+      if (row.every(e => e == null)) continue
+      for (let cell of row) {
+        let td = document.createElement("td")
+        td.innerText = cell
+        tr.append(td)
+      }
+      id("csv-table").append(tr)
+    }
+  })
+}
+
+id("import").onclick = () => {
+  id("import").classList.remove("loading")
+  if (!columnHeaders.name || !columnHeaders.grade || !columnHeaders.email) {
+    console.error("Import error!")
+    return
+  }
+  
+  id("csv-table-wrapper").classList.add("disabled")
+
+  let data = []
+  for (let r of csvData.records) {
+    data.push({
+      name: r[columnHeaders.name],
+      email:r[columnHeaders.email],
+      grade:r[columnHeaders.grade],
+    })
+  }
+
+  console.log(data)
+
+  id("import").disabled = true
+  id("import").classList.add("loading")
+}
