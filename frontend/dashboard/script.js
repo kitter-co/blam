@@ -343,7 +343,11 @@ document.getElementById("fake-file-input").onclick = () => {
 
 */
 
-let columnHeaders = {}
+let columnHeaders = {
+  name: null,
+  email: null,
+  gade: null
+}
 
 function dragstartHandler(e) {
   console.log(e, e.target, e.target.id)
@@ -370,7 +374,7 @@ function dropHandler(e) {
     e.target.appendChild(document.getElementById(data))
     columnHeaders[e.target.querySelector(".csv-header-chip").innerText.toLowerCase()] = parseInt(e.target.getAttribute("column"))
 
-    if (columnHeaders.name && columnHeaders.grade && columnHeaders.email) {
+    if (columnHeaders.name != null && columnHeaders.grade != null && columnHeaders.email != null) {
       id("import").disabled = false
     } else {
       id("import").disabled = true
@@ -440,7 +444,7 @@ id("csv").onchange = e => {
 
 id("import").onclick = () => {
   id("import").classList.remove("loading")
-  if (!columnHeaders.name || !columnHeaders.grade || !columnHeaders.email) {
+  if (columnHeaders.name == null || columnHeaders.grade == null || columnHeaders.email == null) {
     console.error("Import error!")
     return
   }

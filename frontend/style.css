@@ -359,8 +359,7 @@ button:active, #submit:active,
   transition:
     clip-path 0.2s ease,
     border 0.1s ease,
-    padding 0.1s ease,
-    opacity 0.2s linear;
+    padding 0.1s ease;
   background: var(--bg-light);
   border: 2px solid var(--white);
   border-top: none;
@@ -404,9 +403,7 @@ button:active, #submit:active,
 }
 
 .autocomplete-menu.hidden {
-  opacity: 0;
   clip-path: inset(0 0 100% 0);
-  border: 0 solid var(--white);
   padding: 12px;
 }
 
