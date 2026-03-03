@@ -21,6 +21,7 @@ export async function blammo(user: string): Promise<void> {
   await UserSchema.findByIdAndUpdate(targetUser?._id, { alive: false });
   await UserSchema.findByIdAndUpdate(user, {
     target: targetUser.target,
+    score: fullUser.score + 1,
     weekScore: fullUser.weekScore + 1,
   });
   console.log(targetUser);
